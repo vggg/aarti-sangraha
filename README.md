@@ -7,7 +7,7 @@ meaning for each.
 Made for families raising children outside Maharashtra, where the tune is remembered but the
 script often isn't.
 
-**Read the page:** https://YOUR-USERNAME.github.io/aarti-sangraha/ — see [SETUP.md](SETUP.md)
+**Read the page:** https://vggg.github.io/aarti-sangraha/ — see [SETUP.md](SETUP.md)
 **Print the booklet:** [`print/Aarti_Sangraha_A4_Booklet.pdf`](print/Aarti_Sangraha_A4_Booklet.pdf) — 5 A4 sheets, fold in half
 
 | | |
@@ -71,7 +71,7 @@ directories. If one is missing the build says which and stops. You need
 **Poppins** (Regular/Medium/Bold), **Caladea** (Regular/Bold) and **FreeSerif**.
 
 ```bash
-SITE_URL="https://YOUR-USERNAME.github.io/aarti-sangraha/" ./make.sh
+SITE_URL="https://vggg.github.io/aarti-sangraha/" ./make.sh
 ```
 
 That produces all three PDFs, the QR cards, and runs both acceptance tests.

@@ -6,3 +6,4 @@ source/photos/
 __pycache__/
 node_modules/
 build/_work/
+build/fonts/
