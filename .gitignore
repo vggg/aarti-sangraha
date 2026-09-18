@@ -1,0 +1,8 @@
+# The source photographs are pictures of a copyrighted printed edition.
+# The verses themselves are public domain; that edition's typesetting is not.
+# Keep them local — the canonical text in source/aarti_master.json is what matters.
+source/photos/
+*.pyc
+__pycache__/
+node_modules/
+build/_work/

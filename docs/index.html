@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="mr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FBF4E6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#12100C" media="(prefers-color-scheme: dark)">
+<meta name="description" content="Six Marathi aartis with syllable-by-syllable pronunciation and English meanings, sized for singing from a phone.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Aarti Sangraha">
+<link rel="icon" href="icon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<style>
+  :root{color-scheme:light dark;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);}
+  body{margin:0}
+  img{max-width:100%}
+  [hidden]{display:none!important}
+</style>
+<title>Aarti Sangraha</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari:wght@400;600&family=Marcellus&family=Lora:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#FBF4E6; --surface:#FFFDF7; --raise:#F5E9D2; --hit:#EFE0C2;
+  --ink:#241F19; --ink-soft:#4B4138; --muted:#8A7659; --line:#E5D6B9;
+  --maroon:#8C1D2F; --gold:#B98A21; --teal:#14607A;
+  --ac:#C8621A;
+  --shade:rgba(62,42,12,.07); --shade2:rgba(62,42,12,.12);
+  --z:1;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --ground:#12100C; --surface:#1B1712; --raise:#241E16; --hit:#302719;
+  --ink:#F3E8D3; --ink-soft:#D6C6A8; --muted:#9C8A6C; --line:#332B20;
+  --maroon:#F0A6AE; --gold:#E0B44A; --teal:#7CC6DE;
+  --shade:rgba(0,0,0,.35); --shade2:rgba(0,0,0,.5);
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --ground:#12100C; --surface:#1B1712; --raise:#241E16; --hit:#302719;
+  --ink:#F3E8D3; --ink-soft:#D6C6A8; --muted:#9C8A6C; --line:#332B20;
+  --maroon:#F0A6AE; --gold:#E0B44A; --teal:#7CC6DE;
+  --shade:rgba(0,0,0,.35); --shade2:rgba(0,0,0,.5);
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:Lora,Georgia,serif;
+  -webkit-text-size-adjust:100%;
+}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--ac); outline-offset:2px; border-radius:4px}
+
+.app{display:flex; flex-direction:column; height:100%}
+
+/* ---------- top bar ---------- */
+.bar{
+  position:sticky; top:env(safe-area-inset-top,0px); z-index:20;
+  background:var(--ground); border-bottom:1px solid var(--line);
+}
+.bar-in{display:flex; align-items:center; gap:10px; padding:10px 16px 0}
+.brand{font-family:Marcellus,serif; font-size:15px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--maroon); white-space:nowrap}
+.brand .dev{font-family:'Noto Serif Devanagari',serif; letter-spacing:0;
+  text-transform:none; font-size:17px; margin-right:8px}
+.spring{flex:1}
+.icbtn{width:38px; height:38px; border-radius:10px; display:grid; place-items:center;
+  color:var(--muted); font-size:16px; line-height:1}
+.icbtn:hover{background:var(--hit); color:var(--ink)}
+.icbtn[aria-pressed="true"]{background:var(--raise); color:var(--ac)}
+
+.tabs{display:flex; gap:6px; overflow-x:auto; padding:8px 16px 10px;
+  scrollbar-width:none; -webkit-overflow-scrolling:touch}
+.tabs::-webkit-scrollbar{display:none}
+.tab{
+  flex:0 0 auto; padding:7px 13px; border-radius:999px; white-space:nowrap;
+  font-family:'Noto Serif Devanagari',serif; font-size:15px;
+  color:var(--ink-soft); background:var(--surface); border:1px solid var(--line);
+}
+.tab:hover{background:var(--hit)}
+.tab[aria-selected="true"]{
+  background:var(--accent-fill); border-color:transparent; color:#fff; font-weight:600;
+}
+
+/* ---------- stage ---------- */
+.stage{flex:1 1 auto; overflow-y:auto; scroll-behavior:smooth; overscroll-behavior:contain}
+@media (prefers-reduced-motion:reduce){ .stage{scroll-behavior:auto} }
+.wrap{max-width:780px; margin:0 auto; padding:0 16px 42vh}
+
+.head{text-align:center; padding:26px 0 18px}
+.head h1{margin:0; font-family:'Noto Serif Devanagari',serif; font-weight:600;
+  font-size:clamp(22px,5.4vw,30px); color:var(--maroon); line-height:1.35; text-wrap:balance}
+.head .en{margin-top:6px; font-family:Marcellus,serif; font-size:12px;
+  letter-spacing:.22em; text-transform:uppercase; color:var(--ac)}
+.head .inc{margin-top:4px; font-family:'Noto Serif Devanagari',serif;
+  font-size:13px; color:var(--muted)}
+.orn{display:block; margin:14px auto 0; color:var(--gold)}
+
+.ln{
+  display:block; width:100%; text-align:left; padding:13px 14px;
+  border-radius:12px; border-left:3px solid transparent;
+  transition:background .18s ease, border-color .18s ease;
+}
+@media (prefers-reduced-motion:reduce){ .ln{transition:none} }
+.ln .m{
+  font-family:'Noto Serif Devanagari',serif;
+  font-size:calc(clamp(20px,5.1vw,27px) * var(--z));
+  line-height:1.62; color:var(--ink);
+}
+.ln .r{
+  font-family:Lora,Georgia,serif;
+  font-size:calc(clamp(14.5px,3.5vw,18px) * var(--z));
+  line-height:1.5; color:var(--teal); margin-top:5px; letter-spacing:.005em;
+}
+.ln.refrain{background:var(--raise); border-left-color:var(--accent-fill)}
+.ln.refrain .m{color:var(--maroon); font-weight:600}
+.ln.on{background:var(--accent-wash); border-left-color:var(--accent-fill)}
+.ln.on .m{color:var(--ink)}
+.ln:hover:not(.on){background:var(--hit)}
+body.mode-mr .ln .r{display:none}
+body.mode-ro .ln .m{display:none}
+body.mode-ro .ln .r{margin-top:0; font-size:calc(clamp(18px,4.6vw,24px) * var(--z)); color:var(--ink)}
+
+.seal{text-align:center; font-family:'Noto Serif Devanagari',serif;
+  font-size:15px; color:var(--maroon); padding:26px 0 8px}
+
+.mean{margin-top:18px; background:var(--surface); border:1px solid var(--line);
+  border-radius:14px; padding:18px 20px}
+.mean h2{margin:0 0 8px; font-family:Marcellus,serif; font-size:12px;
+  letter-spacing:.2em; text-transform:uppercase; color:var(--ac)}
+.mean p{margin:0; font-size:15.5px; line-height:1.72; color:var(--ink-soft)}
+
+/* ---------- bottom bar ---------- */
+.dock{
+  position:sticky; bottom:0; z-index:20; background:var(--surface);
+  border-top:1px solid var(--line); box-shadow:0 -6px 20px var(--shade);
+  padding:9px 12px calc(9px + env(safe-area-inset-bottom,0px));
+}
+.dock-in{max-width:780px; margin:0 auto; display:flex; align-items:center; gap:8px}
+.play{
+  width:50px; height:50px; border-radius:50%; flex:0 0 auto;
+  background:var(--accent-fill); color:#fff; display:grid; place-items:center;
+  box-shadow:0 2px 10px var(--shade2);
+}
+.play svg{width:20px; height:20px; fill:currentColor}
+.seg{display:flex; background:var(--raise); border-radius:10px; padding:3px; gap:2px}
+.seg button{padding:7px 11px; border-radius:8px; font-size:12px;
+  font-family:Marcellus,serif; letter-spacing:.1em; text-transform:uppercase; color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--surface); color:var(--ink); box-shadow:0 1px 3px var(--shade)}
+.speed{display:flex; align-items:center; gap:7px; flex:1 1 130px; min-width:106px}
+.speed input{flex:1; width:100%; min-width:0; appearance:none; -webkit-appearance:none;
+  height:22px; background:transparent}
+.speed input::-webkit-slider-runnable-track{height:4px; border-radius:2px; background:var(--line)}
+.speed input::-moz-range-track{height:4px; border-radius:2px; background:var(--line)}
+.speed input::-webkit-slider-thumb{-webkit-appearance:none; width:17px; height:17px;
+  border-radius:50%; background:var(--accent-fill); margin-top:-6.5px;
+  box-shadow:0 1px 3px var(--shade2)}
+.speed input::-moz-range-thumb{width:17px; height:17px; border:0; border-radius:50%;
+  background:var(--accent-fill); box-shadow:0 1px 3px var(--shade2)}
+.speed label{font-family:Marcellus,serif; font-size:10.5px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--muted); white-space:nowrap}
+.tap{padding:9px 12px; border-radius:10px; background:var(--raise); font-size:12px;
+  font-family:Marcellus,serif; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-soft);
+  white-space:nowrap}
+.tap:hover{background:var(--hit)}
+.tap.armed{background:var(--accent-fill); color:#fff}
+@media (max-width:560px){
+  .dock-in{flex-wrap:wrap; justify-content:center}
+  .speed{order:5; flex-basis:100%}
+}
+
+.hint{max-width:780px; margin:0 auto; padding:0 4px 6px; font-size:11px;
+  color:var(--muted); text-align:center; letter-spacing:.03em}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="bar">
+    <div class="bar-in">
+      <div class="brand"><span class="dev">॥ आरती संग्रह ॥</span>Aarti Sangraha</div>
+      <div class="spring"></div>
+      <button class="icbtn" id="size" title="Text size" aria-label="Text size">Aa</button>
+      <button class="icbtn" id="theme" title="Light or dark" aria-label="Light or dark">☾</button>
+    </div>
+    <div class="tabs" id="tabs" role="tablist" aria-label="Choose an aarti"></div>
+  </div>
+
+  <div class="stage" id="stage">
+    <div class="wrap">
+      <div class="head">
+        <h1 id="t-mr"></h1>
+        <div class="en" id="t-en"></div>
+        <div class="inc" id="t-inc"></div>
+        <svg class="orn" width="74" height="12" viewBox="0 0 74 12" aria-hidden="true">
+          <path d="M2 6h26M46 6h26" stroke="currentColor" stroke-width="1" fill="none"/>
+          <path d="M37 1l3.2 5L37 11l-3.2-5z" fill="currentColor"/>
+        </svg>
+      </div>
+      <div id="lines"></div>
+      <div class="seal" id="seal"></div>
+      <div class="mean"><h2>What it means</h2><p id="meaning"></p></div>
+    </div>
+  </div>
+
+  <div class="dock">
+    <div class="dock-in">
+      <button class="play" id="play" aria-label="Start following along">
+        <svg id="pic" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+      <div class="seg" role="group" aria-label="Script">
+        <button data-mode="both" aria-pressed="true">Both</button>
+        <button data-mode="mr" aria-pressed="false">मराठी</button>
+        <button data-mode="ro" aria-pressed="false">Roman</button>
+      </div>
+      <button class="tap" id="tap">Tap tempo</button>
+      <div class="speed">
+        <label for="sp">Pace</label>
+        <input id="sp" type="range" min="2.2" max="9" step="0.1" value="4.6" aria-label="Seconds per line">
+      </div>
+    </div>
+    <div class="hint" id="hint">Tap any line to jump there · Space to start and stop</div>
+  </div>
+</div>
+
+<script>
+const DATA = [{"id":"GAN","mr":"श्री गणपतीची आरती","en":"Ganpati Aarti","inc":"सुखकर्ता दुःखहर्ता","ac":"#C8621A","seal":"॥ श्री गणेशाय नमः ॥","meaning":"Ganpati is hailed as the maker of happiness and the remover of sorrow, the one who ends all word of obstacles. His devotees are shown his beloved form: vermilion paste over every limb, a necklace of pearls at his throat, a jewelled crown, sandal and saffron, anklets that chime as he moves. The closing verse is the plea the whole aarti builds toward - come to us in danger, protect us at the final hour.","L":[{"m":"सुखकर्ता दुःखहर्ता वार्ता विघ्नाची ।","r":"Sukh-kar-taa Dukh-har-taa Vaar-taa Vigh-naa-chee","t":0},{"m":"नुरवी पुरवी प्रेम कृपा जयाची ।","r":"Nur-vee Pur-vee Prem Kru-paa Ja-yaa-chee","t":0},{"m":"सर्वांगी सुंदर उटी शेंदुराची ।","r":"Sar-vaan-gee Sun-dar U-tee Shen-du-raa-chee","t":0},{"m":"कंठी झळके माळ मुक्ताफळांची ॥१॥","r":"Kan-thee Jhal-ke Maal Muk-taa-pha-laan-chee","t":0},{"m":"जय देव जय देव जय मंगलमूर्ती ।","r":"Jai Dev Jai Dev Jai Man-gal-moor-tee","t":1},{"m":"दर्शनमात्रे मनकामना पुरती ॥धृ॥","r":"Dar-shan-maa-tre Man-kaam-naa Pur-tee","t":1},{"m":"रत्नखचित फरा तुज गौरीकुमरा ।","r":"Rat-na-kha-chit Pha-raa Tuj Gau-ree-ku-ma-raa","t":0},{"m":"चंदनाची उटी कुंकुमकेशरा ।","r":"Chan-da-naa-chee U-tee Kun-kum-ke-sha-raa","t":0},{"m":"हिरेजडित मुकुट शोभतो बरा ।","r":"Hi-re-ja-dit Mu-kut Sho-bha-to Ba-raa","t":0},{"m":"रुणझुणती नूपुरे चरणी घागरिया ॥२॥","r":"Run-jhu-na-tee Noo-pu-re Cha-ra-nee Ghaa-ga-ri-yaa","t":0},{"m":"लंबोदर पीतांबर फणिवरवंदना ।","r":"Lam-bo-dar Pee-taam-bar Pha-ni-var-van-da-naa","t":0},{"m":"सरळ सोंड वक्रतुंड त्रिनयना ।","r":"Sa-ral Sond Vak-ra-tund Tri-na-ya-naa","t":0},{"m":"दास रामाचा वाट पाहे सदना ।","r":"Daas Raa-maa-chaa Vaat Paa-he Sa-da-naa","t":0},{"m":"संकटी पावावे निर्वाणी रक्षावे सुरवरवंदना ॥३॥","r":"San-ka-tee Paa-vaa-ve Nir-vaa-nee Rak-shaa-ve Su-ra-var-van-da-naa","t":0}]},{"id":"SHA","mr":"श्री शंकराची आरती","en":"Shankar Aarti","inc":"लवथवती विक्राळा","ac":"#2F6E96","seal":"॥ ओं नमः शिवाय ॥","meaning":"Shiva is seen in the same breath as terrifying and beautiful - garlanded with the whole cosmos, the poison dark at his throat, fire in his third eye, and the crescent set tenderly on his head, with the pure Ganga running down from it. The aarti moves through Parvati at his side, the scattering of sacred ash, and the churning of the ocean, when the Halahal poison rose and Shiva alone drank it and so became Nilkanth, the blue-throated one. Ramdas signs the last verse: this Lord is held in the devotee's own heart.","L":[{"m":"लवथवती विक्राळा ब्रह्मांडी माळा ।","r":"La-va-tha-va-tee Vik-raa-laa Brah-maan-dee Maa-laa","t":0},{"m":"वीषे कंठी काळा त्रिनेत्री ज्वाळा ।","r":"Vee-she Kan-thee Kaa-laa Tri-net-ree Jwaa-laa","t":0},{"m":"लावण्यसुंदर मस्तकी बाळा ।","r":"Laa-van-ya-sun-dar Mas-ta-kee Baa-laa","t":0},{"m":"तेथुनिया जल निर्मळ वाहे झुळझुळा ॥१॥","r":"Te-thu-ni-yaa Jal Nir-mal Vaa-he Jhul-jhu-laa","t":0},{"m":"जय देव जय देव जय श्रीशंकरा ।","r":"Jai Dev Jai Dev Jai Shree-shan-ka-raa","t":1},{"m":"आरती ओवाळू तुज कर्पूरगौरा ॥धृ॥","r":"Aar-tee O-vaa-loo Tuj Kar-poor-gau-raa","t":1},{"m":"कर्पूरगौरा भोळा नयनी विशाळा ।","r":"Kar-poor-gau-raa Bho-laa Na-ya-nee Vi-shaa-laa","t":0},{"m":"अर्धांगी पार्वती सुमनांच्या माळा ।","r":"Ar-dhaan-gee Paar-va-tee Su-ma-naan-chyaa Maa-laa","t":0},{"m":"विभूतीचे उधळण शितिकंठ नीळा ।","r":"Vi-bhoo-tee-che U-dha-lan Shi-ti-kanth Nee-laa","t":0},{"m":"ऐसा शंकर शोभे उमावेल्हाळा ॥२॥","r":"Ai-saa Shan-kar Sho-bhe U-maa-vel-haa-laa","t":0},{"m":"देवी दैत्यी सागरमंथन पै केले ।","r":"De-vee Dai-tyee Saa-gar-man-than Pai Ke-le","t":0},{"m":"त्यामाजी अवचित हळाहळ जे उठिले ।","r":"Tyaa-maa-jee A-va-chit Ha-laa-hal Je U-thi-le","t":0},{"m":"ते त्वां असुरपणे प्राशन केले ।","r":"Te Twaan A-sur-pa-ne Praa-shan Ke-le","t":0},{"m":"नीळकंठ नाम प्रसिद्ध झाले ॥३॥","r":"Neel-kanth Naam Pra-siddh Jhaa-le","t":0},{"m":"व्याघ्रांबर फणिवरधर सुंदर मदनारी ।","r":"Vyaagh-raam-bar Pha-ni-var-dhar Sun-dar Ma-da-naa-ree","t":0},{"m":"पंचानन मनमोहन मुनिजनसुखकारी ।","r":"Pan-chaa-nan Man-mo-han Mu-ni-jan-sukh-kaa-ree","t":0},{"m":"शतकोटीचे बीज वाचे उच्चारी ।","r":"Shat-ko-tee-che Beej Vaa-che Uch-chaa-ree","t":0},{"m":"रघुकुलटिलक रामदासा अंतरी ॥४॥","r":"Ra-ghu-kul-ti-lak Raam-daa-saa An-ta-ree","t":0}]},{"id":"DEV","mr":"श्री देवीची आरती","en":"Devi Aarti","inc":"दुर्गे दुर्घट भारी","ac":"#A4243B","seal":"॥ श्री अंबिकायै नमः ॥","meaning":"The Mother is called by the name that means the un-crossable: Durga, without whom this world is too hard to cross. She is refuge for those who have none, and the devotee asks her plainly to end the round of birth and death and to lift the danger at hand. The middle verses confess that the four Vedas and the six schools of philosophy wore themselves out and still could not describe her, yet she comes at once to anyone who simply loves her. Narahari, the poet, ends lost at the dust of her lotus feet.","L":[{"m":"दुर्गे दुर्घट भारी तुजविण संसारी ।","r":"Dur-ge Dur-ghat Bhaa-ree Tuj-vin San-saa-ree","t":0},{"m":"अनाथनाथे अंबे करुणा विस्तारी ।","r":"A-naath-naa-the Am-be Ka-ru-naa Vis-taa-ree","t":0},{"m":"वारी वारी जन्ममरणाते वारी ।","r":"Vaa-ree Vaa-ree Jan-ma-ma-ra-naa-te Vaa-ree","t":0},{"m":"हारी पडलो आता संकट निवारी ॥१॥","r":"Haa-ree Pa-da-lo Aa-taa San-kat Ni-vaa-ree","t":0},{"m":"जय देवी जय देवी महिषासुरमथिनी ।","r":"Jai De-vee Jai De-vee Ma-hi-shaa-sur-ma-thi-nee","t":1},{"m":"सुरवरईश्वरवरदे तारक संजीवनी ॥धृ॥","r":"Sur-var-eesh-war-var-de Taa-rak San-jee-va-nee","t":1},{"m":"त्रिभुवनभुवनी पाहता तुजऐसी नाही ।","r":"Tri-bhu-van-bhu-va-nee Paa-ha-taa Tuj-ai-see Naa-hee","t":0},{"m":"चारी श्रमले परंतु न बोलवे काही ।","r":"Chaa-ree Shra-ma-le Pa-ran-tu Na Bo-la-ve Kaa-hee","t":0},{"m":"साही विवाद करिता पडिले प्रवाही ।","r":"Saa-hee Vi-vaad Ka-ri-taa Pa-di-le Pra-vaa-hee","t":0},{"m":"ते तू भक्तालागी पावसी लवलाही ॥२॥","r":"Te Too Bhak-taa-laa-gee Paa-va-see La-va-laa-hee","t":0},{"m":"प्रसन्नवदने प्रसन्न होसी निजदासा ।","r":"Pra-sann-va-da-ne Pra-sann Ho-see Nij-daa-saa","t":0},{"m":"क्लेशापासुनि सोडवी तोडी भवपाशा ।","r":"Kle-shaa-paa-su-ni So-da-vee To-dee Bha-va-paa-shaa","t":0},{"m":"अंबे तुजवाचून कोण पुरविल आशा ।","r":"Am-be Tuj-vaa-choon Kon Pu-ra-vil Aa-shaa","t":0},{"m":"नरहरि तल्लीन झाला पदपंकजलेशा ॥३॥","r":"Na-ra-ha-ri Tal-leen Jhaa-laa Pad-pan-kaj-le-shaa","t":0}]},{"id":"DAT","mr":"श्री दत्ताची आरती","en":"Datta Aarti","inc":"त्रिगुणात्मक त्रैमूर्ति","ac":"#B0742A","seal":"॥ श्री गुरुदेव दत्त ॥","meaning":"Dattatreya is the three qualities in one form, the ruler of the three worlds, and finally beyond every description - neti, neti, not this, not this. He is outside and inside alike, one single Datta, though the unlucky mind cannot take the news in. The aarti then turns to what actually happens: Datta comes and stands before the devotee, who falls full-length in love, and receives the blessing that ends the wheel of birth and death. In the last verse the meditation has gone so deep that the difference between me and you has quietly been seen off.","L":[{"m":"त्रिगुणात्मक त्रैमूर्ति दत्त हा जाणा ।","r":"Tri-gu-naat-mak Trai-moor-ti Dat-ta Haa Jaa-naa","t":0},{"m":"त्रिगुणी अवतार त्रैलोक्यराणा ।","r":"Tri-gu-nee A-va-taar Trai-lok-ya-raa-naa","t":0},{"m":"नेति नेति शब्द नये अनुमाना ।","r":"Ne-ti Ne-ti Shabd Na-ye A-nu-maa-naa","t":0},{"m":"सुरवरमुनिजन योगी समाधी न ये ध्याना ॥१॥","r":"Sur-var-mu-ni-jan Yo-gee Sa-maa-dhee Na Ye Dhyaa-naa","t":0},{"m":"जय देव जय देव जय श्रीगुरुदत्ता ।","r":"Jai Dev Jai Dev Jai Shree-gu-ru-dat-taa","t":1},{"m":"आरती ओवाळिता हरली भवचिंता ॥धृ॥","r":"Aar-tee O-vaa-li-taa Har-lee Bhav-chin-taa","t":1},{"m":"सबाह्य अभ्यंतरी तू एक दत्त ।","r":"Sa-baah-ya Abh-yan-ta-ree Too Ek Datt","t":0},{"m":"अभाग्यासी कैची कळेल हे मात ।","r":"A-bhaag-yaa-see Kai-chee Ka-lel He Maat","t":0},{"m":"पराही परतली तेथे कैचा हा हेत ।","r":"Pa-raa-hee Pa-ra-ta-lee Te-the Kai-chaa Haa Het","t":0},{"m":"जन्ममरणाचा पुरलासे अंत ॥२॥","r":"Jan-ma-ma-ra-naa-chaa Pu-ra-laa-se Ant","t":0},{"m":"दत्त येऊनिया उभा ठाकला ।","r":"Dat-ta Ye-oo-ni-yaa U-bhaa Thaa-ka-laa","t":0},{"m":"भावे साष्टांगेसी प्रणिपात केला ।","r":"Bhaa-ve Saash-taan-ge-see Pra-ni-paat Ke-laa","t":0},{"m":"प्रसन्न होऊनि आशीर्वाद दिधला ।","r":"Pra-sann Ho-oo-ni Aa-sheer-vaad Di-dha-laa","t":0},{"m":"जन्ममरणाचा फेरा चुकविला ॥३॥","r":"Jan-ma-ma-ra-naa-chaa Phe-raa Chu-ka-vi-laa","t":0},{"m":"दत्त दत्त ऐसे लागले ध्यान ।","r":"Dat-ta Dat-ta Ai-se Laa-ga-le Dhyaan","t":0},{"m":"हरपले मन झाले उन्मन ।","r":"Har-pa-le Man Jhaa-le Un-man","t":0},{"m":"मी तू झाली बोळवण ।","r":"Mee Too Jhaa-lee Bo-la-van","t":0},{"m":"एका जनार्दनी श्रीदत्तध्यान ॥४॥","r":"E-kaa Ja-naar-da-nee Shree-dat-ta-dhyaan","t":0}]},{"id":"GHA","mr":"घालीन लोटांगण","en":"Ghalin Lotangan","inc":"घालीन लोटांगण वंदीन चरण","ac":"#6B4E9E","seal":"॥ श्री विष्णवे नमः ॥","meaning":"This is the prayer that closes the aarti, and it climbs in four steps. Sant Namdev begins with the body: I will throw myself full-length before you, worship your feet, look my fill at your form, embrace you and wave the lamp. Then the Sanskrit takes over and widens: you alone are mother, father, brother, friend, learning and wealth - you are everything to me. Then whatever I do, with body, speech, mind or senses, I lay at Narayana's feet. It ends in pure names - Achyuta, Keshava, Krishna, Rama - and the Hare Rama Hare Krishna, where nothing is asked for at all.","L":[{"m":"घालीन लोटांगण वंदीन चरण ।","r":"Ghaa-leen Lo-taan-gan Van-deen Cha-ran","t":0},{"m":"डोळ्यांनी पाहीन रूप तुझे ।","r":"Do-lyaan-nee Paa-heen Roop Tu-jhe","t":0},{"m":"प्रेमे आलिंगन आनंदे पूजिन ।","r":"Pre-me Aa-lin-gan Aa-nan-de Poo-jin","t":0},{"m":"भावे ओवाळीन म्हणे नामा ॥१॥","r":"Bhaa-ve O-vaa-leen Mha-ne Naa-maa","t":0},{"m":"त्वमेव माता च पिता त्वमेव ।","r":"Twa-me-va Maa-taa Cha Pi-taa Twa-me-va","t":0},{"m":"त्वमेव बंधुश्च सखा त्वमेव ।","r":"Twa-me-va Ban-dhush-cha Sa-khaa Twa-me-va","t":0},{"m":"त्वमेव विद्या द्रविणं त्वमेव ।","r":"Twa-me-va Vid-yaa Dra-vi-nam Twa-me-va","t":0},{"m":"त्वमेव सर्वं मम देवदेव ॥२॥","r":"Twa-me-va Sar-vam Ma-ma De-va-dev","t":0},{"m":"कायेन वाचा मनसेंद्रियैर्वा ।","r":"Kaa-ye-na Vaa-chaa Ma-na-sen-dri-yair-vaa","t":0},{"m":"बुद्ध्यात्मना वा प्रकृतिस्वभावात् ।","r":"Bud-dhyaat-ma-naa Vaa Pra-kru-ti-swa-bhaa-vaat","t":0},{"m":"करोमि यद्यत्सकलं परस्मै ।","r":"Ka-ro-mi Yad-yat-sa-ka-lam Pa-ras-mai","t":0},{"m":"नारायणायेति समर्पयामि ॥३॥","r":"Naa-raa-ya-naa-ye-ti Sa-mar-pa-yaa-mi","t":0},{"m":"अच्युतं केशवं रामनारायणं ।","r":"A-chyu-tam Ke-sha-vam Raa-ma-naa-raa-ya-nam","t":0},{"m":"कृष्णदामोदरं वासुदेवं हरिम् ।","r":"Krish-na-daa-mo-da-ram Vaa-su-de-vam Ha-rim","t":0},{"m":"श्रीधरं माधवं गोपिकावल्लभं ।","r":"Shree-dha-ram Maa-dha-vam Go-pi-kaa-val-la-bham","t":0},{"m":"जानकीनायकं रामचंद्रं भजे ॥४॥","r":"Jaa-na-kee-naa-ya-kam Raam-chan-dram Bha-je","t":0},{"m":"हरे राम हरे राम राम राम हरे हरे ।","r":"Ha-re Raam Ha-re Raam Raam Raam Ha-re Ha-re","t":1},{"m":"हरे कृष्ण हरे कृष्ण कृष्ण कृष्ण हरे हरे ॥","r":"Ha-re Krish-na Ha-re Krish-na Krish-na Krish-na Ha-re Ha-re","t":1}]},{"id":"MAN","mr":"मंत्रपुष्पांजली","en":"Mantra Pushpanjali","inc":"ओं यज्ञेन यज्ञमयजन्त","ac":"#4F7A2B","seal":"॥ ओं तत् सत् ॥","meaning":"Mantra Pushpanjali is the handful of flowers offered at the very end of worship, and it is Vedic rather than devotional in tone. The first verse says that the gods worshipped through sacrifice, and those were the first sacred laws - and by them the worshippers reached the heights where the ancient ones dwell. The second salutes Vaishravana, Kubera, lord of abundance, asking that wishes worth wishing be granted. The third is the great blessing: sovereignty of every kind, extending over the whole earth to the sea, for a full span of life. The fourth remembers King Marutta, in whose house the Maruts themselves served and the Vishvedevas sat in assembly.","L":[{"m":"ॐ यज्ञेन यज्ञमयजन्त देवास्तानि धर्माणि प्रथमान्यासन् ।","r":"Om Yag-nye-na Yag-nya-ma-ya-jan-ta De-vaas-taa-ni Dhar-maa-ni Pra-tha-maan-yaa-san","t":0},{"m":"ते ह नाकं महिमानः सचन्त यत्र पूर्वे साध्याः सन्ति देवाः ॥१॥","r":"Te Ha Naa-kam Ma-hi-maa-nah Sa-chan-ta Yat-ra Poor-ve Saadh-yaah San-ti De-vaah","t":0},{"m":"ॐ राजाधिराजाय प्रसह्य साहिने ।","r":"Om Raa-jaa-dhi-raa-jaa-ya Pra-sah-ya Saa-hi-ne","t":0},{"m":"नमो वयं वैश्रवणाय कुर्महे ।","r":"Na-mo Va-yam Vai-shra-va-naa-ya Kur-ma-he","t":0},{"m":"स मे कामान् कामकामाय मह्यम् ।","r":"Sa Me Kaa-maan Kaa-ma-kaa-maa-ya Mah-yam","t":0},{"m":"कामेश्वरो वैश्रवणो ददातु ।","r":"Kaa-mesh-wa-ro Vai-shra-va-no Da-daa-tu","t":0},{"m":"कुबेराय वैश्रवणाय महाराजाय नमः ॥२॥","r":"Ku-be-raa-ya Vai-shra-va-naa-ya Ma-haa-raa-jaa-ya Na-mah","t":0},{"m":"ॐ स्वस्ति ।","r":"Om Swas-ti","t":0},{"m":"साम्राज्यं भौज्यं स्वाराज्यं वैराज्यं पारमेष्ठ्यं राज्यं महाराज्यमाधिपत्यमयम् ।","r":"Saam-raaj-yam Bhauj-yam Swaa-raaj-yam Vai-raaj-yam Paa-ra-mesh-thyam Raaj-yam Ma-haa-raaj-ya-maa-dhi-pat-ya-ma-yam","t":0},{"m":"समन्तपर्यायी स्यात्सार्वभौमः सार्वायुष आन्तादापरार्धात् ।","r":"Sa-man-ta-par-yaa-yee Syaat-saar-va-bhau-mah Saar-vaa-yu-sha Aan-taa-daa-pa-raar-dhaat","t":0},{"m":"पृथिव्यै समुद्रपर्यन्ताया एकराळिति ॥३॥","r":"Pru-thiv-yai Sa-mud-ra-par-yan-taa-yaa E-ka-raa-li-ti","t":0},{"m":"तदप्येष श्लोकोऽभिगीतो मरुतः परिवेष्टारो मरुत्तस्यावसन् गृहे ।","r":"Ta-dap-ye-sha Shlo-ko-bhi-gee-to Ma-ru-tah Pa-ri-vesh-taa-ro Ma-rut-tas-yaa-va-san Gru-he","t":0},{"m":"आविक्षितस्य कामप्रेर्विश्वेदेवाः सभासद इति ॥४॥","r":"Aa-vik-shi-tas-ya Kaa-ma-prer-vish-we-de-vaah Sa-bhaa-sa-da I-ti","t":0}]}];
+
+const $ = s => document.querySelector(s);
+const stage = $('#stage'), linesEl = $('#lines');
+let ai = 0, cur = 0, timer = null, playing = false, base = 4.6, mode = 'both', zoom = 1;
+
+/* per-viewer conveniences only; never load-bearing */
+const store = {
+  get(k, d){ try { const v = localStorage.getItem('aarti.'+k); return v === null ? d : JSON.parse(v); }
+             catch(e){ return d; } },
+  set(k, v){ try { localStorage.setItem('aarti.'+k, JSON.stringify(v)); } catch(e){} }
+};
+
+function shade(hex, pct, alpha){
+  const n = parseInt(hex.slice(1), 16);
+  let r = n >> 16, g = (n >> 8) & 255, b = n & 255;
+  r = Math.round(r + (255 - r) * pct);
+  g = Math.round(g + (255 - g) * pct);
+  b = Math.round(b + (255 - b) * pct);
+  return alpha == null ? `rgb(${r},${g},${b})` : `rgba(${r},${g},${b},${alpha})`;
+}
+
+function buildTabs(){
+  const t = $('#tabs');
+  t.innerHTML = '';
+  DATA.forEach((a, i) => {
+    const b = document.createElement('button');
+    b.className = 'tab';
+    b.type = 'button';
+    b.setAttribute('role', 'tab');
+    b.textContent = a.mr.replace(/^श्री\s*/, '');
+    b.setAttribute('aria-selected', String(i === ai));
+    b.addEventListener('click', () => pick(i));
+    t.appendChild(b);
+  });
+}
+
+function pick(i, keep){
+  ai = i;
+  const a = DATA[i];
+  const dark = matchMedia('(prefers-color-scheme: dark)').matches &&
+               document.documentElement.getAttribute('data-theme') !== 'light' ||
+               document.documentElement.getAttribute('data-theme') === 'dark';
+  document.documentElement.style.setProperty('--accent-fill', dark ? shade(a.ac, .28) : a.ac);
+  document.documentElement.style.setProperty('--accent-wash',
+    dark ? shade(a.ac, .1, .16) : shade(a.ac, .82, .85));
+
+  $('#t-mr').textContent = a.mr;
+  $('#t-en').textContent = a.en;
+  $('#t-inc').textContent = a.inc;
+  $('#seal').textContent = a.seal;
+  $('#meaning').textContent = a.meaning;
+
+  linesEl.innerHTML = '';
+  a.L.forEach((l, k) => {
+    const b = document.createElement('button');
+    b.className = 'ln' + (l.t ? ' refrain' : '');
+    b.type = 'button';
+    b.innerHTML = '<div class="m"></div><div class="r"></div>';
+    b.children[0].textContent = l.m;
+    b.children[1].textContent = l.r;
+    b.addEventListener('click', () => { goto(k); if (playing) schedule(); });
+    linesEl.appendChild(b);
+  });
+
+  [...$('#tabs').children].forEach((b, k) => b.setAttribute('aria-selected', String(k === i)));
+  cur = 0;
+  mark(false);
+  if (!keep) stage.scrollTo({ top: 0, behavior: 'auto' });
+  store.set('last', i);
+}
+
+function mark(scroll){
+  const kids = [...linesEl.children];
+  kids.forEach((el, k) => el.classList.toggle('on', k === cur && playing));
+  if (scroll && kids[cur]){
+    const el = kids[cur];
+    const target = el.offsetTop - (stage.clientHeight / 2) + (el.offsetHeight / 2);
+    stage.scrollTo({ top: Math.max(0, target),
+      behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  }
+}
+
+function goto(k){ cur = Math.max(0, Math.min(DATA[ai].L.length - 1, k)); mark(true); }
+
+/* longer lines simply hold longer */
+function dwell(){
+  const L = DATA[ai].L;
+  const avg = L.reduce((s, l) => s + l.m.length, 0) / L.length;
+  const f = Math.max(0.6, Math.min(1.7, L[cur].m.length / avg));
+  return base * f * 1000;
+}
+
+function schedule(){
+  clearTimeout(timer);
+  timer = setTimeout(() => {
+    if (cur < DATA[ai].L.length - 1){ cur++; mark(true); schedule(); }
+    else stop();
+  }, dwell());
+}
+
+function start(){
+  playing = true;
+  $('#pic').innerHTML = '<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>';
+  $('#play').setAttribute('aria-label', 'Stop following along');
+  mark(true);
+  schedule();
+  wake();
+}
+function stop(){
+  playing = false;
+  clearTimeout(timer);
+  $('#pic').innerHTML = '<path d="M8 5v14l11-7z"/>';
+  $('#play').setAttribute('aria-label', 'Start following along');
+  mark(false);
+  if (lock){ try { lock.release(); } catch(e){} lock = null; }
+}
+
+/* keep the screen on while singing */
+let lock = null;
+async function wake(){
+  try { if ('wakeLock' in navigator) lock = await navigator.wakeLock.request('screen'); } catch(e){}
+}
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible' && playing) wake();
+});
+
+$('#play').addEventListener('click', () => playing ? stop() : start());
+
+document.querySelectorAll('.seg button').forEach(b => {
+  b.addEventListener('click', () => {
+    mode = b.dataset.mode;
+    document.body.className = 'mode-' + mode;
+    document.querySelectorAll('.seg button')
+      .forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+    store.set('mode', mode);
+  });
+});
+
+$('#sp').addEventListener('input', e => {
+  base = +e.target.value;
+  store.set('base', base);
+  if (playing) schedule();
+});
+
+let taps = [];
+$('#tap').addEventListener('click', () => {
+  const now = Date.now();
+  taps = taps.filter(t => now - t < 6000);
+  taps.push(now);
+  const el = $('#tap');
+  el.classList.add('armed');
+  setTimeout(() => el.classList.remove('armed'), 140);
+  if (taps.length >= 3){
+    const gaps = taps.slice(1).map((t, i) => (t - taps[i]) / 1000);
+    gaps.sort((a, b) => a - b);
+    const med = gaps[Math.floor(gaps.length / 2)];
+    base = Math.max(2.2, Math.min(9, med * 2));
+    $('#sp').value = base.toFixed(1);
+    store.set('base', base);
+    $('#hint').textContent = 'Pace set to ' + base.toFixed(1) + 's a line';
+    setTimeout(() => { $('#hint').textContent =
+      'Tap any line to jump there · Space to start and stop'; }, 2600);
+    if (playing) schedule();
+  } else {
+    $('#hint').textContent = 'Keep tapping along with the singing — ' +
+      (3 - taps.length) + ' more';
+  }
+});
+
+const ZOOMS = [1, 1.16, 1.34, 0.88];
+$('#size').addEventListener('click', () => {
+  zoom = ZOOMS[(ZOOMS.indexOf(zoom) + 1) % ZOOMS.length];
+  document.documentElement.style.setProperty('--z', zoom);
+  store.set('zoom', zoom);
+});
+
+$('#theme').addEventListener('click', () => {
+  const now = document.documentElement.getAttribute('data-theme');
+  const sysDark = matchMedia('(prefers-color-scheme: dark)').matches;
+  const next = now ? (now === 'dark' ? 'light' : 'dark') : (sysDark ? 'light' : 'dark');
+  document.documentElement.setAttribute('data-theme', next);
+  $('#theme').textContent = next === 'dark' ? '☀' : '☾';
+  store.set('theme', next);
+  pick(ai, true);
+});
+
+addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT') return;
+  if (e.code === 'Space'){ e.preventDefault(); playing ? stop() : start(); }
+  if (e.code === 'ArrowDown' || e.code === 'ArrowRight'){ e.preventDefault(); goto(cur + 1); }
+  if (e.code === 'ArrowUp' || e.code === 'ArrowLeft'){ e.preventDefault(); goto(cur - 1); }
+});
+
+/* restore this viewer's preferences, then render */
+(function boot(){
+  const th = store.get('theme', null);
+  if (th){ document.documentElement.setAttribute('data-theme', th);
+           $('#theme').textContent = th === 'dark' ? '☀' : '☾'; }
+  zoom = store.get('zoom', 1);
+  document.documentElement.style.setProperty('--z', zoom);
+  base = store.get('base', 4.6);
+  $('#sp').value = base;
+  mode = store.get('mode', 'both');
+  document.body.className = 'mode-' + mode;
+  document.querySelectorAll('.seg button')
+    .forEach(x => x.setAttribute('aria-pressed', String(x.dataset.mode === mode)));
+  buildTabs();
+  pick(Math.min(DATA.length - 1, store.get('last', 0)));
+})();
+</script>
+</body>
+</html>

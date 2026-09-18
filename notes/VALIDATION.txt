@@ -1,0 +1,36 @@
+[1] master sha256  OK  0d745ee4e03f107c31406c267864514b7b5af12d034dd66718c4aa29c190a480
+[2] pdf text layer  16554 chars extracted
+[3] line-for-line   95 verse lines x2 layers -> OK, all present
+[4] no stray glyphs OK
+[5] geometry        12 pages, 612x792pt (US Letter portrait OK), even for duplex OK
+[6] fonts           28 embedded subsets
+      AAAAAA+Poppins-Medium                CID TrueType      Identity-H       yes ye
+      BAAAAA+Caladea-Regular               CID TrueType      Identity-H       yes ye
+      BAAAAA+Caladea-Regular               CID TrueType      Identity-H       yes ye
+      CAAAAA+Poppins-Regular               CID TrueType      Identity-H       yes ye
+      BAAAAA+Caladea-Regular               CID TrueType      Identity-H       yes ye
+      DAAAAA+FreeSans                      CID TrueType      Identity-H       yes ye
+      BAAAAA+Caladea-Regular               CID TrueType      Identity-H       yes ye
+      EAAAAA+Caladea-Bold                  CID TrueType      Identity-H       yes ye
+      BAAAAA+Caladea-Regular               CID TrueType      Identity-H       yes ye
+      DAAAAA+FreeSans                      CID TrueType      Identity-H       yes ye
+      FAAAAA+DejaVuSans                    CID TrueType      Identity-H       yes ye
+      BAAAAA+Caladea-Regular               CID TrueType      Identity-H       yes ye
+      BAAAAA+Caladea-Regular               CID TrueType      Identity-H       yes ye
+      CAAAAA+Poppins-Regular               CID TrueType      Identity-H       yes ye
+      GAAAAA+FreeSerif                     CID TrueType      Identity-H       yes ye
+      CAAAAA+Poppins-Regular               CID TrueType      Identity-H       yes ye
+      BAAAAA+Caladea-Regular               CID TrueType      Identity-H       yes ye
+      BAAAAA+Caladea-Regular               CID TrueType      Identity-H       yes ye
+      BAAAAA+Caladea-Regular               CID TrueType      Identity-H       yes ye
+      BAAAAA+Caladea-Regular               CID TrueType      Identity-H       yes ye
+      BAAAAA+Caladea-Regular               CID TrueType      Identity-H       yes ye
+      BAAAAA+Caladea-Regular               CID TrueType      Identity-H       yes ye
+      CAAAAA+Poppins-Regular               CID TrueType      Identity-H       yes ye
+      CAAAAA+Poppins-Regular               CID TrueType      Identity-H       yes ye
+      CAAAAA+Poppins-Regular               CID TrueType      Identity-H       yes ye
+      CAAAAA+Poppins-Regular               CID TrueType      Identity-H       yes ye
+      CAAAAA+Poppins-Regular               CID TrueType      Identity-H       yes ye
+      CAAAAA+Poppins-Regular               CID TrueType      Identity-H       yes ye
+
+RESULT: PASS
