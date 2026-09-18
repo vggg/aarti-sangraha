@@ -1,18 +1,18 @@
 [1] master sha256  OK  32c1be11e0f67486577dbee8e54bcd34e951321ef345220c8e7e2991572bfeec
-[2] pdf text layer  22587 chars extracted
+[2] pdf text layer  22835 chars extracted
 [3] line-for-line   154 verse lines x2 layers -> OK, all present
 [4] no stray glyphs OK
-[5] geometry        12 pages, 842x595pt (A4 landscape OK), page count OK for this format
+[5] geometry        24 pages, 612x792pt (US Letter portrait OK), page count OK for this format
 [6] fonts           22 embedded subsets
+      AAAAAA+Poppins-Medium                CID TrueType      Identity-H       yes ye
+      BAAAAA+Caladea-Regular               CID TrueType      Identity-H       yes ye
       BAAAAA+Caladea-Regular               CID TrueType      Identity-H       yes ye
       CAAAAA+FreeSans                      CID TrueType      Identity-H       yes ye
       BAAAAA+Caladea-Regular               CID TrueType      Identity-H       yes ye
       AAAAAA+Poppins-Medium                CID TrueType      Identity-H       yes ye
-      BAAAAA+Caladea-Regular               CID TrueType      Identity-H       yes ye
-      BAAAAA+Caladea-Regular               CID TrueType      Identity-H       yes ye
-      AAAAAA+Poppins-Medium                CID TrueType      Identity-H       yes ye
       DAAAAA+Poppins-Regular               CID TrueType      Identity-H       yes ye
       EAAAAA+DejaVuSans                    CID TrueType      Identity-H       yes ye
+      BAAAAA+Caladea-Regular               CID TrueType      Identity-H       yes ye
       BAAAAA+Caladea-Regular               CID TrueType      Identity-H       yes ye
       DAAAAA+Poppins-Regular               CID TrueType      Identity-H       yes ye
       FAAAAA+FreeSerif                     CID TrueType      Identity-H       yes ye
@@ -27,20 +27,4 @@
       BAAAAA+Caladea-Regular               CID TrueType      Identity-H       yes ye
       BAAAAA+Caladea-Regular               CID TrueType      Identity-H       yes ye
 
-RESULT: PASS
-sheet side   left  right   match
-    1 front    24      1   OK
-    1 back      2     23   OK
-    2 front    22      3   OK
-    2 back      4     21   OK
-    3 front    20      5   OK
-    3 back      6     19   OK
-    4 front    18      7   OK
-    4 back      8     17   OK
-    5 front    16      9   OK
-    5 back     10     15   OK
-    6 front    14     11   OK
-    6 back     12     13   OK
-
-character census across all sheets vs all pages: IDENTICAL
 RESULT: PASS

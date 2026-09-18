@@ -88,3 +88,54 @@ No artwork from `design_artifacts/aarti_art_crops/` was used. Those crops came o
 AI-generated collage and may carry generated lettering; your own rule is that sacred text must
 never live inside an image. All ornament in this booklet is drawn as vector shapes, so there is
 no image anywhere that could contain text.
+
+---
+
+# Added 18 September 2026 — the fourth photograph set
+
+श्री ज्ञानदेवाची आरती joins the core. शेंदूर लाल चढायो, श्री विठोबाची आरती and
+येई हो विठ्ठले are included as bonus material. Same rule as before: standard published text,
+your photographs as the line-by-line cross-check.
+
+## 7. श्री ज्ञानदेवाची आरती  (photo IMG_20084BCD) — CORE
+
+| Line | Book | Booklet | Why |
+|---|---|---|---|
+| DNY-007 | **प्रकट** गुह्य बोले | **प्रगट** गुह्य बोले | प्रगट is the standard Marathi form here. |
+| DNY-007 | विश्व **ब्रम्हाची** केलें | विश्व**ब्रह्मचि** केले | ब्रह्म with the correct conjunct; the line means the universe was made of Brahman itself. |
+| DNY-006 | साम गायन (two words) | **सामगायन** | One word — the singing of the Sama Veda. |
+| DNY-002 | refrain repeated in full at the end | printed once with ॥धृ॥ | Your page prints आरती ज्ञानराजा / सेविती again as the return. Set like every other aarti in this book: refrain once, marked ॥धृ॥. |
+
+## 8. शेंदूर लाल चढायो  (photo IMG_A08D2A78) — bonus
+
+| Line | Book | Booklet | Why |
+|---|---|---|---|
+| SHE-001 | गज मुखको | **गजमुखको** | One word. |
+| SHE-002 | **विराजे** | **बिराजे** | Hindi ब, as the rest of this aarti's diction. |
+| SHE-004 | हुं | **हूं** | Long ū. |
+| SHE-007 | सिद्धी | **सिद्धि** | Standard. |
+| SHE-008 | **मुरत** | **मूरत** | Long ū. |
+| SHE-009 | कोटी**सुरज**प्रकाश | कोटि**सूरज**प्रकाश | Standard vowel lengths. |
+| SHE-009 | छबी | **छबि** | Standard. |
+| SHE-014 | गोसावी**वंदन** | गोसावी**नंदन** | **Substantive.** नंदन = son or descendant; this is the poet's signature line. वंदन (salutation) breaks it. |
+
+## 9. श्री विठोबाची आरती  (photo IMG_AA2286D0) — bonus
+
+| Line | Book | Booklet | Why |
+|---|---|---|---|
+| VIT-006 | **राहीच्या** वल्लभा | **राईच्या** वल्लभा | Rai, the standard name in this refrain. |
+| VIT-013 | राई **रखुमाई** राणीया | राई **रखुमाबाई** राणीया | Standard form, and the metre wants the extra syllable. |
+| VIT-008 | पितांबर | **पीतांबर** | पीत = yellow. |
+| VIT-005/6 | refrain broken across three part-lines | two refrain lines ending ॥धृ॥ | Regularised to match the rest of the book. No words changed. |
+
+## 10. येई हो विठ्ठले  (photo IMG_F8BA9DB1) — bonus
+
+| Line | Book | Booklet | Why |
+|---|---|---|---|
+| YEI-001 | opening line printed twice on one line | printed once | Your page doubles it as a typesetting convention for the sung repeat. |
+| YEI-002 | पाहें | **पाहे** | Archaic anusvara dropped, as elsewhere in this book. |
+| YEI-004 | हातीं | **हाती** | Same. |
+| YEI-010 | विठोबाचें | **विठोबाचे** | Same. |
+| YEI-013 | ठायां | **ठायी** | Standard. |
+
+Running total: **154 lines across ten aartis**, 45 recorded divergences.

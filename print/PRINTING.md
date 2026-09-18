@@ -1,6 +1,6 @@
 # Printing the folded booklet
 
-**File:** `Aarti_Sangraha_A4_Booklet.pdf` — 10 sheet-sides, A4 **landscape**.
+**File:** `Aarti_Sangraha_A4_Booklet.pdf` — 12 sheet-sides, A4 **landscape**.
 
 ## Settings
 
@@ -23,30 +23,32 @@ fold. "Fit to page" shifts them and the fold stops falling between them.
 
 ## Assembly
 
-5 sheets come out. Keep them in the order printed, stack them, fold the whole stack
-in half, and staple twice on the fold. You get a 20-page A5 booklet.
+6 sheets come out. Keep them in the order printed, stack them, fold the whole stack
+in half, and staple twice on the fold. You get a 24-page A5 booklet.
 
 Sheet order, if you ever need to check one:
 
 ```
-sheet 1   front 20 | 1     back  2 | 19
-sheet 2   front 18 | 3     back  4 | 17
-sheet 3   front 16 | 5     back  6 | 15
-sheet 4   front 14 | 7     back  8 | 13
-sheet 5   front 12 | 9     back 10 | 11
+sheet 1   front 24 | 1     back  2 | 23
+sheet 2   front 22 | 3     back  4 | 21
+sheet 3   front 20 | 5     back  6 | 19
+sheet 4   front 18 | 7     back  8 | 17
+sheet 5   front 16 | 9     back 10 | 15
+sheet 6   front 14 | 11    back 12 | 13
 ```
 
-Page 20 is intentionally blank — it becomes the back cover.
+Page 24 is intentionally blank — it becomes the back cover.
 
 ## Test first
 
 Print sheet 1 only, fold it, and check that the cover is on the outside and
-"How to use this book" is directly behind it. If it is, print the rest.
+the Contents page is directly behind it. If it is, print the rest.
 
 ## The other files
 
-`Aarti_A5_pages.pdf` is the same booklet as 20 separate A5 pages, in reading order.
+`Aarti_A5_pages.pdf` is the same booklet as 24 separate A5 pages, in reading order.
 Use it to read on a phone or tablet, or to print on A5 paper directly (duplex,
 flip on long edge). It is also what the imposition is built from.
 
-`Aarti_Sangraha.pdf` is the earlier US Letter edition, 12 pages, one aarti per page.
+`Aarti_Sangraha_Letter_LargePrint.pdf` is the same book on US Letter at nearly double the
+type size — 24 pages, plain duplex, no folding.

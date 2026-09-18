@@ -1,14 +1,15 @@
 # Aarti Sangraha
 
-A printable booklet and a phone-friendly web page for six Marathi aartis — the Devanagari
-verse, a syllable-by-syllable English pronunciation under every line, and a plain-English
-meaning for each.
+A printable booklet and a phone-friendly web page for ten Marathi aartis — the Devanagari
+verse with a syllable-by-syllable English pronunciation under every line.
 
 Made for families raising children outside Maharashtra, where the tune is remembered but the
 script often isn't.
 
-**Read the page:** https://vggg.github.io/aarti-sangraha/ — see [SETUP.md](SETUP.md)
-**Print the booklet:** [`print/Aarti_Sangraha_A4_Booklet.pdf`](print/Aarti_Sangraha_A4_Booklet.pdf) — 5 A4 sheets, fold in half
+**Read the page:** https://vggg.github.io/aarti-sangraha/
+**Print the booklet:** [`print/Aarti_Sangraha_A4_Booklet.pdf`](print/Aarti_Sangraha_A4_Booklet.pdf) — 6 A4 sheets, fold in half
+
+**॥ आरत्या ॥** the aartis
 
 | | |
 |---|---|
@@ -16,13 +17,30 @@ script often isn't.
 | श्री शंकराची आरती | लवथवती विक्राळा |
 | श्री देवीची आरती | दुर्गे दुर्घट भारी |
 | श्री दत्ताची आरती | त्रिगुणात्मक त्रैमूर्ति |
-| घालीन लोटांगण | |
-| मंत्रपुष्पांजली | |
+| श्री ज्ञानदेवाची आरती | आरती ज्ञानराजा |
+
+**॥ समारोप ॥** closing prayers
+
+| | |
+|---|---|
+| घालीन लोटांगण | वंदीन चरण |
+| मंत्रपुष्पांजली | ॐ यज्ञेन यज्ञमयजन्त |
+
+**॥ अतिरिक्त आरत्या ॥** also included
+
+| | |
+|---|---|
+| शेंदूर लाल चढायो | the second Ganpati aarti, in Hindi |
+| श्री विठोबाची आरती | युगे अठ्ठावीस |
+| येई हो विठ्ठले | माझे माउली ये |
+
+The five deity aartis come first, in the order they are sung, then the two prayers that
+close every aarti sequence, then three more that belong to their own occasions.
 
 ## One source of truth
 
 Everything here — three PDFs, the web page, the QR cards — is generated from
-[`source/aarti_master.json`](source/aarti_master.json): 95 lines, each with a permanent ID,
+[`source/aarti_master.json`](source/aarti_master.json): 154 lines, each with a permanent ID,
 the Devanagari, and its pronunciation.
 
 That file is hashed. `build/build.py` recomputes the hash on every run and refuses to start
@@ -33,7 +51,7 @@ changing the master and re-freezing the hash — there is no other path.
 
 Ten photographs of a printed Aarti Sangrah edition were transcribed line by line at 3×
 magnification. Where the printed edition and the standard published text disagree, the
-standard text is used and the difference is recorded — all 27 of them, with reasons, in
+standard text is used and the difference is recorded — all 45 of them, with reasons, in
 [`notes/DIVERGENCES.md`](notes/DIVERGENCES.md). Some are substantive: that edition prints
 `तोंड` where the standard has `सोंड`, and carries two broken Sanskrit readings in
 Ghalin Lotangan that were corrected here.
@@ -41,7 +59,7 @@ Ghalin Lotangan that were corrected here.
 Two acceptance tests run on every build:
 
 - **`build/validate.py`** extracts the text layer back out of each generated PDF and asserts
-  that all 95 Devanagari lines and all 95 Roman lines appear character for character. It also
+  that all 154 Devanagari lines and all 154 Roman lines appear character for character. It also
   checks that no Devanagari character appears anywhere in the PDF that is not accounted for in
   the master, that page geometry is right, and that every font is embedded.
 - **`build/check_imposition.py`** reads each half-sheet of the folded booklet separately and
@@ -76,6 +94,11 @@ SITE_URL="https://vggg.github.io/aarti-sangraha/" ./make.sh
 
 That produces all three PDFs, the QR cards, and runs both acceptance tests.
 
+Each aarti occupies a facing spread, so nothing is hidden by a page turn while you are
+singing, and the type can stay large. The English meanings live in the master file but are
+not rendered into the booklet or the web page — `build/build.py` reads them, nothing prints
+them.
+
 To regenerate only the QR after moving the site:
 
 ```bash
@@ -85,8 +108,10 @@ python3 build/make_qr.py "https://your-new-url"
 ## Printing
 
 [`print/PRINTING.md`](print/PRINTING.md) has the full settings. The short version: A4,
-**landscape**, double-sided, **short-edge binding**, 5 sheets, fold the stack in half and
-staple twice on the fold. Print sheet 1 alone first and check it folds correctly before
+**landscape**, double-sided, **short-edge binding**, 6 sheets, fold the stack in half and
+staple twice on the fold. `Aarti_Sangraha_Letter_LargePrint.pdf` is the same book on US
+Letter at nearly double the type size, for anyone who wants it bigger — plain duplex, no
+folding. Print sheet 1 alone first and check it folds correctly before
 running the rest.
 
 ## Typography

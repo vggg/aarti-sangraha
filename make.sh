@@ -5,10 +5,10 @@ set -euo pipefail
 cd "$(dirname "$0")"
 export PYTHONPATH="$PWD/build"
 
-echo "==> US Letter edition"
-python3 build/build.py
+echo "==> US Letter large-print edition"
+SPREAD=1 python3 build/build.py
 python3 build/render.py
-python3 build/validate.py Aarti_Sangraha.pdf
+python3 build/validate.py Aarti_Sangraha_Letter_LargePrint.pdf
 
 echo "==> A5 spreads"
 PAGE=A5 SPREAD=1 python3 build/build.py

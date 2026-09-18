@@ -4,36 +4,11 @@ Reads the frozen canonical master and emits HTML -> PDF.
 The master is READ ONLY; this script never edits it."""
 import json, re, html, hashlib, pathlib, sys
 
-import os, sys, pathlib as _pl
-_ROOT = _pl.Path(__file__).resolve().parent.parent
-_FONTDIRS = [_ROOT/'build'/'fonts',
-             _pl.Path('/usr/share/fonts/truetype/google-fonts'),
-             _pl.Path('/usr/share/fonts/truetype/crosextra'),
-             _pl.Path('/usr/share/fonts/truetype/freefont'),
-             _pl.Path('/Library/Fonts'), _pl.Path.home()/'Library'/'Fonts',
-             _pl.Path('/usr/share/fonts')]
-def font(name):
-    """Find a TTF by filename. Drop missing ones into build/fonts/."""
-    for d in _FONTDIRS:
-        if not d.exists():
-            continue
-        hit = d/name
-        if hit.exists():
-            return hit
-        for f in d.rglob(name):
-            return f
-    sys.exit(f"Missing font {name}.\n"
-             f"Put it in {_ROOT/'build'/'fonts'} and re-run.\n"
-             f"Poppins and Noto Serif Devanagari: fonts.google.com. "
-             f"Caladea: ships with LibreOffice. FreeSerif: GNU FreeFont.")
-
-ROOT = pathlib.Path(__file__).resolve().parent.parent
-SRC, OUT, WORK = ROOT/'source', ROOT/'print', ROOT/'build'/'_work'
-WORK.mkdir(parents=True, exist_ok=True); OUT.mkdir(exist_ok=True)
-MASTER = SRC/'aarti_master.json'
+ROOT = pathlib.Path('/home/claude/aarti')
+MASTER = ROOT/'aarti_master.json'
 
 # --- integrity gate -------------------------------------------------------
-expected = (SRC/'aarti_master.sha256').read_text().split()[0]
+expected = (ROOT/'aarti_master.sha256').read_text().split()[0]
 actual = hashlib.sha256(MASTER.read_bytes()).hexdigest()
 if expected != actual:
     sys.exit(f'MASTER HASH MISMATCH\n expected {expected}\n actual   {actual}')
@@ -48,12 +23,12 @@ else:
 def u(v, unit='in'):                            # scaled fixed dimension
     return f'{v*S:.4f}{unit}'
 
-DEVA = font("Poppins-Regular.ttf").as_uri()
-DEVA_M = font("Poppins-Medium.ttf").as_uri()
-DEVA_B = font("Poppins-Bold.ttf").as_uri()
-SERIF  = font("Caladea-Regular.ttf").as_uri()
-SERIF_B= font("Caladea-Bold.ttf").as_uri()
-NUM   = font("FreeSerif.ttf").as_uri()
+DEVA = "file:///usr/share/fonts/truetype/google-fonts/Poppins-Regular.ttf"
+DEVA_M = "file:///usr/share/fonts/truetype/google-fonts/Poppins-Medium.ttf"
+DEVA_B = "file:///usr/share/fonts/truetype/google-fonts/Poppins-Bold.ttf"
+SERIF  = "file:///usr/share/fonts/truetype/crosextra/Caladea-Regular.ttf"
+SERIF_B= "file:///usr/share/fonts/truetype/crosextra/Caladea-Bold.ttf"
+NUM   = "file:///usr/share/fonts/truetype/freefont/FreeSerif.ttf"
 
 MARKER = re.compile(r'(॥[^॥]*॥)')
 
@@ -168,10 +143,19 @@ html,body {{ margin:0; padding:0; background:#fff; }}
 .note li {{ font-family:Lora; font-size:{10.6*S:.2f}pt; line-height:1.55; margin-bottom:{u(.045)}; }}
 .note ul {{ margin:0; padding-left:{u(.19)}; }}
 
+.toc-h {{ margin:{u(.20)} 0 {u(.10)}; display:flex; align-items:baseline; gap:{u(.10)}; }}
+.toc-h .mr {{ font-family:Deva; font-size:{11*S:.2f}pt; color:var(--maroon); }}
+.toc-h .en {{ font-family:Lora; font-size:{8*S:.2f}pt; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--muted); }}
+.toc-h:first-child {{ margin-top:0; }}
+.toc-note {{ margin-top:{u(.26)}; font-family:Lora; font-size:{8.6*S:.2f}pt; line-height:1.6;
+  color:var(--muted); }}
 .toc {{ display:flex; align-items:baseline; gap:{u(.08)}; margin-bottom:{u(.20)}; }}
 .toc .mr {{ font-family:Deva; font-size:{13*S:.2f}pt; color:var(--charcoal); }}
 .toc .en {{ font-family:Lora; font-size:{10*S:.2f}pt; color:var(--muted); letter-spacing:.08em; }}
 .toc .dots {{ flex:1; border-bottom:1px dotted rgba(122,106,85,.5); }}
+.tt .bonus-tag {{ display:block; margin-top:{u(.03)}; font-family:Lora;
+  font-size:{7.6*S:.2f}pt; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); }}
 .tt .cont {{ font-family:Lora; text-transform:none; letter-spacing:.04em; color:var(--muted); }}
 .closing .inner {{ align-items:center; justify-content:center; text-align:center; }}
 .closing .a {{ font-family:Deva; font-size:{20*S:.2f}pt; color:var(--maroon); }}
@@ -204,46 +188,20 @@ def page(cls, ac, body, pageno=None, foot=True, side=None):
 pages = []
 
 # ---- cover ---------------------------------------------------------------
-items = ''.join(
-    f'<div><b>{html.escape(a["title_mr"])}</b> &nbsp;<span class="en">{html.escape(a["title_en"])}</span></div>'
-    for a in D['aartis'])
 pages.append(page('cover', '#C99A2E',
     f'<div class="cv-mr">॥ आरती संग्रह ॥</div>'
     f'<div class="cv-en">Aarti Sangraha</div>'
     f'{LOTUS}'
     f'<div class="cv-tag">Read &nbsp;•&nbsp; Pronounce &nbsp;•&nbsp; Sing &nbsp;•&nbsp; Understand</div>'
-    f'<div class="cv-list">{items}</div>'
     f'<div class="cv-foot">॥ सर्वे भवन्तु सुखिनः ॥ &nbsp;&nbsp;·&nbsp;&nbsp; May all be happy</div>',
     foot=False, side='recto'))
-
-# ---- how to use ----------------------------------------------------------
-pages.append(page('prose', '#C99A2E',
-    '<div class="tt"><div class="mr">॥ या पुस्तिकेचा उपयोग ॥</div>'
-    '<div class="en">How to use this book</div></div><div class="rule"></div>'
-    '<p>Every aarti is set out the same way. The Marathi or Sanskrit line comes first, '
-    'in dark type. Directly beneath it, in blue, is the same line written out in English '
-    'letters and broken into syllables, so that anyone can sing along without reading '
-    'Devanagari. The refrain — the line the whole room comes back to — sits in a tinted '
-    'band so you can find it at a glance.</p>'
-    '<p>The English meanings are gathered at the back of the book rather than beside the '
-    'verses, so that the singing pages stay uncluttered. Read the meaning once; after that '
-    'you will not need it.</p>'
-    '<div class="note"><h3>A note on the text</h3><ul>'
-    '<li>The Marathi and Sanskrit here follow the standard published text, checked line by '
-    'line against a photographed Aarti Sangrah edition.</li>'
-    '<li>The blue line is a pronunciation aid, not a transliteration scheme. Families sing '
-    'these differently from region to region, and every one of those ways is correct.</li>'
-    '<li>The English meanings are written to convey the sense of the verse, not to translate '
-    'it word for word.</li>'
-    '<li>Verse numbers and the ॥धृ॥ mark for the refrain follow the traditional printing.</li>'
-    '</ul></div>', 2))
 
 # ---- aarti pages ---------------------------------------------------------
 SPREAD = os.environ.get('SPREAD','0') == '1'
 
 def chunks(lines):
     """One page, or two balanced pages that never split a refrain pair."""
-    if not SPREAD or len(lines) <= 10:
+    if not SPREAD:
         return [lines]
     cut = (len(lines) + 1) // 2
     while 0 < cut < len(lines) and lines[cut]['type'] == 'refrain' \
@@ -251,17 +209,36 @@ def chunks(lines):
         cut += 1
     return [lines[:cut], lines[cut:]]
 
-n = 3
+TIER_LABEL = {'closing': 'Closing prayer', 'bonus': 'Also included'}
+
+n = 2
+SECTIONS = [('core',    '॥ आरत्या ॥',            'The Aartis'),
+            ('closing', '॥ समारोप ॥',           'Closing prayers'),
+            ('bonus',   '॥ अतिरिक्त आरत्या ॥', 'Also included')]
+
 if SPREAD:
-    # contents page, so that every two-page aarti opens as a facing spread
-    toc = ''.join(
-        f'<div class="toc"><span class="mr">{html.escape(a["title_mr"])}</span>'
-        f'<span class="dots"></span>'
-        f'<span class="en">{html.escape(a["title_en"])}</span></div>'
-        for a in D['aartis'])
+    def toc_rows(tier):
+        return ''.join(
+            f'<div class="toc"><span class="mr">{html.escape(a["title_mr"])}</span>'
+            f'<span class="dots"></span>'
+            f'<span class="en">{html.escape(a["title_en"])}</span></div>'
+            for a in D['aartis'] if a.get('tier') == tier)
+
+    def toc_block(tier, mr, en):
+        return (f'<div class="toc-h"><span class="mr">{mr}</span>'
+                f'<span class="en">{html.escape(en)}</span></div>' + toc_rows(tier))
+
     pages.append(page('prose toc', '#C99A2E',
         '<div class="tt"><div class="mr">॥ अनुक्रमणिका ॥</div>'
-        '<div class="en">Contents</div></div><div class="rule"></div>' + toc, n))
+        '<div class="en">Contents</div></div><div class="rule"></div>'
+        + toc_block(*SECTIONS[0]) + toc_block(*SECTIONS[1]), n))
+    n += 1
+    pages.append(page('prose toc', '#C99A2E',
+        '<div class="tt"><div class="mr">' + SECTIONS[2][1] + '</div>'
+        '<div class="en">' + SECTIONS[2][2] + '</div></div><div class="rule"></div>'
+        + toc_rows('bonus')
+        + '<div class="toc-note">Sung on their own occasions, and kept here so the book '
+          'holds everything the family reaches for.</div>', n))
     n += 1
 
 for a in D['aartis']:
@@ -276,6 +253,8 @@ for a in D['aartis']:
         head = (f'<div class="tt"><div class="mr">॥ {html.escape(a["title_mr"])} ॥</div>'
                 f'<div class="en">{html.escape(a["title_en"])}'
                 + ('<span class="cont"> &nbsp;·&nbsp; continued</span>' if cont else '')
+                + (f'<span class="bonus-tag">{TIER_LABEL[a["tier"]]}</span>'
+                   if a.get('tier') in TIER_LABEL and not cont else '')
                 + f'</div><div class="inc">{html.escape(a["incipit_mr"])}</div></div>')
         seal = (f'<div class="seal">{html.escape(a["seal"])}</div>'
                 if ci == len(cs) - 1 else '<div class="seal">&nbsp;</div>')
@@ -283,33 +262,6 @@ for a in D['aartis']:
                           head + '<div class="rule"></div>'
                           + f'<div class="verses" data-fit="1">{lines}</div>' + seal, n))
         n += 1
-
-# ---- meanings ------------------------------------------------------------
-blocks = []
-for a in D['aartis']:
-    blocks.append(f'<div class="blk"><div class="h-mr" style="color:{a["accent"]}">'
-                  f'{html.escape(a["title_mr"])}</div>'
-                  f'<h2>{html.escape(a["title_en"])}</h2>'
-                  f'<p>{html.escape(a["meaning"])}</p></div>')
-first = True
-for i in range(0, len(blocks), 2):
-    head = ('<div class="tt"><div class="mr">॥ अर्थ ॥</div>'
-            '<div class="en">The Meanings</div></div><div class="rule"></div>') if first else \
-           ('<div class="tt"><div class="en">The Meanings &nbsp;·&nbsp; continued</div></div>'
-            '<div class="rule"></div>')
-    first = False
-    pages.append(page('prose', '#8C1D2F', head + ''.join(blocks[i:i+2]), n))
-    n += 1
-
-# ---- closing -------------------------------------------------------------
-pages.append(page('closing', '#C99A2E',
-    '<div class="a">॥ सर्वे भवन्तु सुखिनः ॥</div>'
-    '<div class="b">May these aartis bring peace to our homes,<br>'
-    'strength to our hearts, and devotion to our lives.</div>'
-    f'{LOTUS}'
-    '<div class="c">भक्ती &nbsp;•&nbsp; संस्कृती &nbsp;•&nbsp; परिवार</div>'
-    '<div class="d">Devotion &nbsp;•&nbsp; Culture &nbsp;•&nbsp; Family</div>', foot=False,
-    side=('recto' if (len(pages)+1) % 2 else 'verso')))
 
 # saddle stitch needs a multiple of 4; plain duplex only needs an even count
 mult = 4 if SPREAD else 2
@@ -342,6 +294,9 @@ function fit(){
   var vs = Array.prototype.slice.call(document.querySelectorAll('[data-fit]'));
   var global = Math.min.apply(null, vs.map(maxFs));
   vs.forEach(function(v){
+    /* a page with only a few lines reads better as a centred block than as
+       four lines stretched across the whole column */
+    if (v.children.length <= 5){ v.style.justifyContent = 'center'; v.style.rowGap = (global*GAP_K*2.4).toFixed(3)+'in'; }
     setv(v, global, global*GAP_K);
     v.setAttribute('data-final', global.toFixed(2)+'pt min-gap '+(global*GAP_K).toFixed(3)+'in');
   });
@@ -355,6 +310,6 @@ FIT = FIT.replace('%SCALE%', repr(S)).replace('%MAXFS%', '13.4' if PAGE=='A5' el
 doc = ('<!doctype html><html><head><meta charset="utf-8">'
        '<title>Aarti Sangraha</title><style>'+CSS+'</style></head><body>'
        + ''.join(pages) + FIT + '</body></html>')
-out = WORK/('booklet_a5.html' if PAGE=='A5' else 'booklet.html')
+out = ROOT/('booklet_a5.html' if PAGE=='A5' else 'booklet.html')
 out.write_text(doc, encoding='utf-8')
 print(f'{PAGE}: {len(pages)} pages ->', out.name)

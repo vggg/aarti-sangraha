@@ -2,7 +2,7 @@
 """Verify the imposed sheets: each half-sheet must carry exactly the A5 page
 that saddle-stitch order says belongs there."""
 import subprocess, unicodedata, re, pathlib
-ROOT=pathlib.Path(__file__).resolve().parent.parent/'print'
+ROOT=pathlib.Path('/home/claude/aarti')
 A5=ROOT/'Aarti_A5_pages.pdf'; BK=ROOT/'Aarti_Sangraha_A4_Booklet.pdf'
 
 def txt(pdf, page, crop=None):
@@ -12,12 +12,17 @@ def txt(pdf, page, crop=None):
     out=subprocess.run(cmd,capture_output=True,text=True).stdout
     return re.sub(r'\s+','',unicodedata.normalize('NFC',out))
 
-N=20
+N=int(re.search(r'Pages:\s+(\d+)',
+    subprocess.run(['pdfinfo',str(A5)],capture_output=True,text=True).stdout).group(1))
+assert N % 4 == 0, f'{N} A5 pages is not a multiple of 4'
 order=[]
 for i in range(N//4):
     order.append((N-2*i, 2*i+1)); order.append((2*i+2, N-2*i-1))
 
-PW=421; PH=596; GAP=int((841.89-2*419.53)/2)
+from pypdf import PdfReader as _R
+_pg=_R(str(A5)).pages[0]
+PW=int(float(_pg.mediabox.width))+1; PH=int(float(_pg.mediabox.height))+1
+GAP=max(1,int((841.89-2*float(_pg.mediabox.width))/2))
 bad=[]
 print(f'{"sheet":>5} {"side":<5} {"left":>5} {"right":>6}   match')
 for s,(l,r) in enumerate(order, start=1):
